@@ -8,9 +8,14 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://vaulttrack.vercel.app'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://vault-track-eta.vercel.app'
+  ],
   credentials: true
 }));
+
 app.use(express.json());
 
 const authRoutes = require('./routes/authRoutes');
