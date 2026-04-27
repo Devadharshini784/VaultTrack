@@ -24,6 +24,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('vaulttrack_theme') !== 'light');
   const [monthlyBudget, setMonthlyBudget] = useState(() => Number(localStorage.getItem(BUDGET_KEY)) || 0);
   const [budgetInput, setBudgetInput] = useState('');
   const [form, setForm] = useState({
@@ -31,10 +32,13 @@ export default function Dashboard() {
     date: new Date().toISOString().split('T')[0]
   });
 
-  const bg = {
-    page: '#030712', nav: '#0f172a', card: '#0f172a', input: '#1e293b',
-    border: '#1e293b', text: '#f1f5f9', muted: '#64748b', accent: '#7c3aed'
-  };
+  const bg = isDark ? {
+  page: '#030712', nav: '#0f172a', card: '#0f172a', input: '#1e293b',
+  border: '#1e293b', text: '#f1f5f9', muted: '#64748b', accent: '#7c3aed'
+} : {
+  page: '#f8fafc', nav: '#ffffff', card: '#ffffff', input: '#f1f5f9',
+  border: '#e2e8f0', text: '#0f172a', muted: '#64748b', accent: '#7c3aed'
+};
 
   useEffect(() => { fetchData(); }, []);
 
@@ -149,8 +153,20 @@ export default function Dashboard() {
           ))}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button
+  onClick={() => {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    localStorage.setItem('vaulttrack_theme', newTheme ? 'dark' : 'light');
+  }}
+  style={{ background: 'transparent', border: `1px solid ${bg.border}`, color: bg.text, width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+>
+  {isDark ? '☀️' : '🌙'}
+</button>
           <span style={{ color: bg.muted, fontSize: '13px' }}>Hi, {user?.name}</span>
-          <button style={s.logoutBtn} onClick={handleLogout}>Logout</button>
+<button style={{ background: 'transparent', border: `1px solid ${bg.border}`, color: bg.muted, padding: '7px 14px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: '500' }} onClick={handleLogout}>
+  Logout
+</button>
         </div>
       </nav>
 
@@ -243,7 +259,9 @@ export default function Dashboard() {
           <div style={s.card}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <div style={s.sectionTitle}>All Transactions</div>
-              <button style={s.csvBtn} onClick={exportCSV}>Export CSV</button>
+<button style={{ background: bg.input, border: `1px solid ${bg.border}`, color: bg.text, padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: '500' }} onClick={exportCSV}>
+  Export CSV
+</button>
             </div>
             <div style={s.filterRow}>
               <input style={{ ...s.input, maxWidth: '220px' }} placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />
