@@ -117,16 +117,6 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## Screenshots
-
-> Dashboard — dark mode with charts and summary cards
-
-> Transactions — search, filter, and export
-
-> Budget — monthly spending tracker with progress bar
-
----
-
 ## What I Learned
 
 - Building a REST API with Node.js and Express
